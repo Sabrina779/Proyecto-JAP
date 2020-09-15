@@ -67,8 +67,6 @@ function showProductsList(array2){
         document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
     }
 }
-
-
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
@@ -131,9 +129,6 @@ document.addEventListener("DOMContentLoaded", function(e){
         showProductsList(arraySearch);
     });
 
-
-
-
     let searchBar = document.getElementById('search');
 
         searchBar.addEventListener('keyup', (event) => {
@@ -154,8 +149,5 @@ document.addEventListener("DOMContentLoaded", function(e){
                 arraySearch = currentProductsArray;
                 eraseRange();
                 showProductsList(arraySearch);
-            });
-        
-
-        
+            });  
 });
