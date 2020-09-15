@@ -1,6 +1,3 @@
-//Función que se ejecuta una vez que se haya lanzado el evento de
-//que el documento se encuentra cargado, es decir, se encuentran todos los
-//elementos HTML presentes.
 var product = [];
 const productName = document.getElementById("productName");
 const productDescription = document.getElementById("productDescription");
@@ -58,24 +55,23 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
             htmlContentToAppend += `
             <div class="media">
-                 <img class="align-self-center mr-3" src="./img/logo-ceibal.png" width="100" height="100">
+                <img class="align-self-center mr-3" src="./img/logo-ceibal.png" width="100" height="100">
                 <div class="media-body">
                     <div class="container">
                         <div class="row">
-                          <div class="col-sm">
-                          <p class="font-weight-bold">${comment.user} </p>
-                          </div> 
-                         <div class="col-sm">
-                         <p class="font-weight-bold text-center"> Raiting: ${makeRaiting(comment.score)} </p>  
-                           </div>
-                         </div>
+                        <div class="col-sm">
+                        <p class="font-weight-bold">${comment.user} </p>
+                        </div>
+                        <div class="col-sm">
+                        <p class="font-weight-bold text-center"> Raiting: ${makeRaiting(comment.score)} </p>
+                        </div>
+                        </div>
                     </div>
                     <p>  ${comment.description} </p>
                     <p class="mb-0 font-italic">${comment.dateTime} </p>
-                 </div>
+                </div>
             </div>
             ${lastBar(comments.length, i)}
-            
             `
             document.getElementById("comment-list-container").innerHTML = htmlContentToAppend;
         }
