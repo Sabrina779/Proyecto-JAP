@@ -1,31 +1,38 @@
 var product = [];
-const productName = document.getElementById("productName");
-const productDescription = document.getElementById("productDescription");
-const productCost = document.getElementById("productCost");
-const productCategory = document.getElementById("productCategory");
-const productSoltCount = document.getElementById("productSoldCount");
+var relatedProducts = []
+const productName = document.getElementById("productName")
+const productDescription = document.getElementById("productDescription")
+const productCost = document.getElementById("productCost")
+const productCategory = document.getElementById("productCategory")
+const productSoldCount = document.getElementById("productSoldCount")
 
 document.addEventListener("DOMContentLoaded", function(e) {
 
     getJSONData(PRODUCT_INFO_URL).then(function(resultObj) {
         if (resultObj.status === "ok") {
-            product = resultObj.data;
+            product = resultObj.data
+            relatedProducts = product.relatedProducts
             showProduct(product)
-
         }
+        getJSONData(PRODUCTS_URL).then(function(resultObj) {
+            if (resultObj.status === "ok") {
+                products = resultObj.data
+                showRelatedProducts(relatedProducts, products)
+            }
+        })
     });
+
     getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function(resultObj) {
         if (resultObj.status === "ok") {
             comments = resultObj.data
             showComments(comments)
         }
-
     });
 
     function showProduct(product) {
         productName.innerHTML = product.name
-        productCost.innerHTML = product.currency + " " + product.cost
         productDescription.innerHTML = product.description
+        productCost.innerHTML = product.currency + " " + product.cost
         productCategory.innerHTML = product.category
         productSoldCount.innerHTML = product.soldCount
     }
@@ -63,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
                         <p class="font-weight-bold">${comment.user} </p>
                         </div>
                         <div class="col-sm">
-                        <p class="font-weight-bold text-center"> Raiting: ${makeRaiting(comment.score)} </p>
+                        <p class="font-weight-bold text-center"> Raiting: ${makeRaiting(comment.score)}</p>
                         </div>
                         </div>
                     </div>
@@ -76,6 +83,32 @@ document.addEventListener("DOMContentLoaded", function(e) {
             document.getElementById("comment-list-container").innerHTML = htmlContentToAppend;
         }
     }
+
+    function showRelatedProducts(RelatedProductsArray, productsArray) {
+        let htmlContentToAppend = ""
+        for (let i = 0; i < RelatedProductsArray.length; i++) {
+            let relatedProduct = RelatedProductsArray[i]
+            let relatedProduct2 = productsArray[relatedProduct]
+
+            htmlContentToAppend += `
+            <div class="col-sm-6 text-center">
+            <div class="card h-100 w-75 align-midle d-inline-block"  >
+                <div class="card-body text-center">
+                <p>
+                <a href="#">
+                <img src="./img/prod${relatedProduct}.jpg" class="img-thumbnail" width="200" height="200" alt="...">
+                </a>
+                </p>
+                <h5 class="card-title">${relatedProduct2.name}</h5>
+                <p class="card-text">${relatedProduct2.description}</p>
+                </div>
+            </div>
+            </div>
+            `
+            document.getElementById("relatedProductsContainer").innerHTML = htmlContentToAppend;
+        }
+    }
+
     document.getElementById("commentSend").addEventListener("click", function(e) {
         e.preventDefault();
         var comment = {}
@@ -97,5 +130,4 @@ document.addEventListener("DOMContentLoaded", function(e) {
         showComments(comments)
         document.getElementById("commentText").value = ""
     });
-
 });
